@@ -1813,3 +1813,97 @@ def test_uyghur(text):
         print("input text and output text -- different")
         print("input:", input_difference)
         print("output:", output_difference)
+
+
+########################################################################
+
+# karakalpak scripts
+
+def karakalpak_to_ipa(text):
+  # we shall begin with sound combinations:
+  # the longer a combination, the upper it is on the list.
+  # single sounds should go to the bottom, with consonants taking precedence over vowels.
+  # consonants are less likely to change than vowels.
+
+  # for convenience, we shall use single symbols to denote multiple-sound combinations.
+  # we can later convert them to conventional symbols.
+
+  # three-sound convenience vowels:
+  text = re.sub("[Юю]", "ǔ", text)
+
+  # two-sound convenience consonants:
+  text = re.sub("[Цц]", "š", text)
+  text = re.sub("[Чч]", "ʆ", text)
+
+  # two-sound convenience vowels:
+  text = re.sub("[Яя]", "ǎ", text)
+  text = re.sub("[Ее]", "ě", text)
+  text = re.sub("[Ёё]", "jo", text)
+  text = re.sub("[Ии]", "ɪ", text)
+  text = re.sub("[Уу]", "ʊ", text)
+
+  # single-sound consonants:
+  text = re.sub("[Бб]", "b", text)
+  text = re.sub("[Вв]", "v", text)
+  text = re.sub("[Гг]", "g", text)
+  text = re.sub("[Ғғ]", "ɣ", text)
+  text = re.sub("[Дд]", "d", text)
+  text = re.sub("[Жж]", "ʒ", text)
+  text = re.sub("[Зз]", "z", text)
+  text = re.sub("[Йй]", "j", text)
+  text = re.sub("[Кк]", "k", text)
+  text = re.sub("[Ққ]", "q", text)
+  text = re.sub("[Лл]", "l", text)
+  text = re.sub("[Мм]", "m", text)
+  text = re.sub("[Нн]", "n", text)
+  text = re.sub("[Ңң]", "ŋ", text)
+  text = re.sub("[Пп]", "p", text)
+  text = re.sub("[Рр]", "r", text)
+  text = re.sub("[Сс]", "s", text)
+  text = re.sub("[Тт]", "t", text)
+  text = re.sub("[Фф]", "f", text)
+  text = re.sub("[Хх]", "h", text)
+  text = re.sub("[Ҳҳ]", "x", text)
+  text = re.sub("[Шш]", "ʃ", text)
+  text = re.sub("[Щщ]", "ɕ", text)
+  text = re.sub("[Ъъ]", "ʔ", text)
+  text = re.sub("[Ьь]", "ʲ", text)
+
+  # single-sound vowels:
+  text = re.sub("[Аа]", "ɑ", text)
+  text = re.sub("[Әә]", "æ", text)
+  text = re.sub("[Оо]", "ɔ", text)
+  text = re.sub("[Өө]", "ɵ", text)
+  text = re.sub("[Ўў]", "u", text)
+  text = re.sub("[Үү]", "ʏ", text)
+  text = re.sub("[Ыы]", "ɤ", text)
+  text = re.sub("[Ээ]", "e", text)
+
+  # rules
+
+  '''
+  rule 1:
+  if [æ], [ě], [ɵ], [ʏ], [ɪ] are followed by [l] and [l] is NOT followed by [æ], [ě], [ɵ], [ʏ], [ɪ], or [ʲ],
+  use [ł] instead of [l] (e.g., [kěł], [kěłdɪ], but [kělěmɪn], [marsělʲ]).
+  '''
+  text = re.sub(r"([æěɵʏɪ])(l)([^æěɵʏɪʲ])", r"\1ł\3", text)
+
+  '''
+  rule 2:
+  if the letters "о" and "ө", [ɔ] and [ɵ] at the beginning of a word are preceded by [w] (e.g., осы [wɔsɤ] not [ɔsɤ], өзі [wɵzɪ] not [ɵzɪ]).
+  '''
+  text = re.sub(r"\b([ɔɵ])", r"w\1", text)
+
+  '''
+  rule 3
+  if the letter "у" [u] is followed by consonants, use [w] instead of [u].
+  '''
+  text = re.sub(r"u([bvgɣdʒzjkqlłmnŋprstfxhʃɕʔšʆʲ])", r"w\1", text)
+
+  '''
+  rule 4:
+  if the letter "и" [ǐ] is followed by consonants, use [i] instead of [ǐ].
+  '''
+  text = re.sub(r"ǐ([bvgɣdʒzjkqlłmnŋprstfxhʃɕʔšʆʲ])", r"i\1", text)
+
+  return text

@@ -9,7 +9,8 @@ dispatcher = {'kazakh' : ipa_convert.kazakh_to_ipa,
               'tatar' : ipa_convert.tatar_to_ipa,
               'bashkir' : ipa_convert.bashkir_to_ipa,
               'sakha' : ipa_convert.sakha_to_ipa,
-              'uyghur' : ipa_convert.uyghur_to_ipa,              
+              'uyghur' : ipa_convert.uyghur_to_ipa,
+              'karakalpak' : ipa_convert.karakalpak_to_ipa,
               'tts_sent' : ipa_convert.ipa_to_kazakh}
 
 def call_func(x, func):
